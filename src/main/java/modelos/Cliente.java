@@ -6,7 +6,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Cliente {
         private int codigoCliente;
         private String nombreCliente;
@@ -22,5 +21,9 @@ public class Cliente {
         private String codigoPostal;
         private Integer repVentas; // Puede ser nulo
         private Float limiteCredito; // Manejo de decimales para valores monetarios
+
+    public String toString() {
+        return codigoCliente + " - " + nombreCliente;
+    }
 }
 
