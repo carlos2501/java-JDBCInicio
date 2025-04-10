@@ -1,30 +1,14 @@
+import repos.ClienteRepo;
 import util.ConexionBD;
 
 import java.sql.*;
 
 public class JDBCInicio {
-    public static void main(String[] args) {
-        try (Connection conex = ConexionBD.getConexion();
-             ){
-            System.out.println("----------- List de Clientes -----------------");
-            ResultSet rs = stmt.executeQuery("SELECT * FROM cliente");
-            while(rs.next()){
-                System.out.println(rs.getInt("codigo_cliente") + " | " + rs.getString("nombre_cliente"));
-            }
-            rs = stmt.executeQuery("SELECT * FROM empleado");
-            System.out.println("-------------- Lista de Empleados ----------------");
-            while(rs.next()){
-                System.out.println(rs.getInt("codigo_empleado") + " | " + rs.getString("nombre"));
-            }
-            rs = stmt.executeQuery("SELECT * FROM oficina");
-            System.out.println("-------------- Lista de Oficinas ----------------");
-            while(rs.next()){
-                System.out.println(rs.getString("codigo_oficina") + " | " + rs.getString("ciudad"));
-            }
+    public static void main(String[] args) throws SQLException {
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        ClienteRepo repoCli = new ClienteRepo();
+
+        System.out.println("-------------- Lista de clientes ------------");
+        repoCli.listaDeClientes().forEach(System.out::println);
     }
-
 }
