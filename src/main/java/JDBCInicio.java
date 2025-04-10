@@ -5,7 +5,6 @@ import java.sql.*;
 public class JDBCInicio {
     public static void main(String[] args) {
         try (Connection conex = ConexionBD.getConexion();
-             Statement stmt = conex.createStatement();
              ){
             System.out.println("----------- List de Clientes -----------------");
             ResultSet rs = stmt.executeQuery("SELECT * FROM cliente");
