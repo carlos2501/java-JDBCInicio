@@ -14,7 +14,7 @@ public class ClienteRepo {
 
     private Connection obtenerConexion() throws SQLException {
         return ConexionBD.getConexion();
-    };
+    }
 
     public List<Cliente> listaDeClientes() throws SQLException {
         List<Cliente> clientes = new ArrayList<>();
@@ -61,9 +61,37 @@ public class ClienteRepo {
 
     /*
     public List<Cliente> listaDeClientesPorRegion(String region) throws SQLException {}
+    */
+    public List<String> listaDeClientesConOficina() {
+        List<String> listaClientes = new ArrayList<>();
+        String qry = """
+                SELECT cl.codigo_cliente, cl.nombre_cliente, cl.telefono, CONCAT(e.nombre, ' ', e.apellido1) AS "Representante Ventas", o.codigo_oficina, o.codigo_postal
+                FROM cliente cl
+                    JOIN empleado e ON cl.rep_ventas = e.codigo_empleado
+                    JOIN oficina o ON e.codigo_oficina = o.codigo_oficina
+                """;
+        try(Statement stmt = obtenerConexion().createStatement();
+            ResultSet rs = stmt.executeQuery(qry)) {
 
-    public List<Cliente> listaDeClitensPorOficina(String oficina) {}
+            while (rs.next()) {
+                listaClientes.add(
+                        rs.getInt("codigo_cliente") + " - " + 
+                        rs.getString("nombre_cliente") + " - " +
+                        rs.getString("telefono") + " " + 
+                        rs.getString("Representante Ventas") + " " + 
+                        rs.getString("codigo_oficina") + " " + 
+                        rs.getString("codigo_postal")
+                );
+                /*System.out.println(rs.getInt("codigo_cliente") + " - " +
+                        rs.getString("nombre_cliente") + " - " +
+                        rs.getString("telefono") + " " + rs.getString("Representante Ventas") + " " + rs.getString("codigo_oficina") + " " + rs.getString("codigo_postal"));
+            */}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listaClientes;
+    }
 
-     */
+
 }
 
