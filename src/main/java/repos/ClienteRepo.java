@@ -8,7 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ClienteRepo {
 
@@ -92,6 +94,30 @@ public class ClienteRepo {
         return listaClientes;
     }
 
+    public Map<Integer, Map<String, String>> fichaClientesConOficina() {
+        Map<Integer, Map<String, String>> listaFichasClientes = new HashMap<>();
+        String qry = """
+                SELECT cl.codigo_cliente, cl.nombre_cliente, cl.telefono, CONCAT(e.nombre, ' ', e.apellido1) AS "Representante Ventas", o.codigo_oficina, o.codigo_postal
+                FROM cliente cl
+                    JOIN empleado e ON cl.rep_ventas = e.codigo_empleado
+                    JOIN oficina o ON e.codigo_oficina = o.codigo_oficina
+                """;
+        try(Statement stmt = obtenerConexion().createStatement();
+            ResultSet rs = stmt.executeQuery(qry)) {
 
+            while (rs.next()) {
+                Map<String, String> ficha = new HashMap<>();
+                ficha.put("nombre_cliente", rs.getString("nombre_cliente"));
+                ficha.put("telefono", rs.getString("telefono"));
+                ficha.put("representante_ventas", rs.getString("Representante Ventas"));
+                ficha.put("oficina", rs.getString("codigo_oficina"));
+                ficha.put("codigo_postal", rs.getString("codigo_postal"));
+                listaFichasClientes.put(rs.getInt("codigo_cliente"), ficha);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listaFichasClientes;
+    }
 }
 
