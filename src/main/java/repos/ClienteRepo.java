@@ -58,5 +58,12 @@ public class ClienteRepo {
         }
         return clientes;
     }
+
+    /*
+    public List<Cliente> listaDeClientesPorRegion(String region) throws SQLException {}
+
+    public List<Cliente> listaDeClitensPorOficina(String oficina) {}
+
+     */
 }
 

@@ -17,7 +17,7 @@ public class JDBCInicio {
         repoCli.listaDeClientes().forEach(System.out::println);
         System.out.println("-------------- Lista de empleados ------------");
         repoEmp.listaDeEmpleados().forEach(System.out::println);
-        System.out.println("-------------- Lista de oficinas ------------");
-        repoOficina.listaDeOficinas().forEach(System.out::println);
+        //System.out.println("-------------- Lista de oficinas ------------");
+        //repoOficina.listaDeOficinas().forEach(System.out::println);
     }
 }
