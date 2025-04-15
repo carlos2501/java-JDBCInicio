@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The ClienteRepo class provides methods for interacting with the Cliente database table.
+ * It allows retrieving client information by ID, listing all clients, and updating client information.
+ */
 public class ClienteRepo {
 
     private Connection obtenerConexion() throws SQLException {
@@ -17,13 +21,14 @@ public class ClienteRepo {
     
     public Cliente obtenerPorId(int id) throws SQLException {
         String qry ="SELECT * FROM Cliente WHERE codigo_cliente = ?";
+        Cliente cliente;
         try (PreparedStatement stmt = obtenerConexion().prepareStatement(qry)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             rs.next();
-            Cliente cliente = cargarCliente(rs);
+            cliente = cargarCliente(rs);
         }
-        return null;
+        return cliente;
     }
 
     public List<Cliente> listaDeClientes() throws SQLException {
@@ -126,6 +131,39 @@ public class ClienteRepo {
         cliente.setFax(rs.getString("fax"));
         cliente.setLineaDireccion1(rs.getString("linea_direccion1"));
         cliente.setLineaDireccion2(rs.getString("linea_direccion2"));
+        return cliente;
+    }
+
+
+    /**
+     * Actualiza un cliente en la base de datos con la información proporcionada.
+     *
+     * @param cliente El objeto Cliente con los datos actualizados a ser almacenados en la base de datos.
+     */
+    public void actualizarCliente(Cliente cliente) {
+
+        String query = "UPDATE cliente SET " +
+                "nombre_cliente = ?, " +
+                "nombre_contacto = ?, " +
+                "apellido_contacto = ?, " +
+                "telefono = ?, " +
+                "fax = ?, " +
+                "linea_direccion1 = ?, " +
+                "linea_direccion2 = ? " +
+                "WHERE codigo_cliente = ?";
+        try (PreparedStatement stmt = obtenerConexion().prepareStatement(query)) {
+            stmt.setString(1, cliente.getNombreCliente());
+            stmt.setString(2, cliente.getNombreContacto());
+            stmt.setString(3, cliente.getApellidoContacto());
+            stmt.setString(4, cliente.getTelefono());
+            stmt.setString(5, cliente.getFax());
+            stmt.setString(6, cliente.getLineaDireccion1());
+            stmt.setString(7, cliente.getLineaDireccion2());
+            stmt.setInt(8, cliente.getCodigoCliente());
+            System.out.println("Cliente actualizado correctamente en la base de datos.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al actualizar el cliente", e);
+        }
     }
 }
 
