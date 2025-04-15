@@ -3,6 +3,7 @@ import repos.EmpleadoRepo;
 
 import java.sql.*;
 import java.util.Map;
+import java.util.Scanner;
 
 public class JDBCInicio {
     public static void main(String[] args) throws SQLException {
@@ -19,6 +20,15 @@ public class JDBCInicio {
         repoCli.listaDeClientesConOficina().forEach(System.out::println);
         System.out.println("-------------- Ficha de clientes con la oficina de ventas ------------");
         imprimirFichasClientes(repoCli.fichaClientesConOficina());
+        System.out.println("-------------- Modificamos un cliente ------------");
+        // leemos los datos del cliente 7 (por ejemplo)
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Código del cliente a editar: ");
+        int id = sc.nextInt();
+        repoCli.obtenerPorId(id);
+        // modificar los campos
+
+        // grabar los nuevos datos
     }
 
     public static void imprimirFichasClientes(Map<Integer, Map<String, String>> fichas) {
