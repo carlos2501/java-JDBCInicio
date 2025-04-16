@@ -131,6 +131,12 @@ public class ClienteRepo {
         cliente.setFax(rs.getString("fax"));
         cliente.setLineaDireccion1(rs.getString("linea_direccion1"));
         cliente.setLineaDireccion2(rs.getString("linea_direccion2"));
+        cliente.setCiudad(rs.getString("ciudad"));
+        cliente.setRegion(rs.getString("region"));
+        cliente.setPais(rs.getString("pais"));
+        cliente.setCodigoPostal(rs.getString("codigo_postal"));
+        cliente.setRepVentas(rs.getInt("rep_ventas"));
+        cliente.setLimiteCredito(rs.getFloat("limite_credito"));
         return cliente;
     }
 
@@ -141,7 +147,6 @@ public class ClienteRepo {
      * @param cliente El objeto Cliente con los datos actualizados a ser almacenados en la base de datos.
      */
     public void actualizarCliente(Cliente cliente) {
-
         String query = "UPDATE cliente SET " +
                 "nombre_cliente = ?, " +
                 "nombre_contacto = ?, " +

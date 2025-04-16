@@ -6,7 +6,22 @@ import java.sql.*;
 import java.util.Map;
 import java.util.Scanner;
 
-
+/**
+ * Ejercicio:
+ *  crear un menu inicial que se visualizará al ejecutar la aplicación.
+ *  La cabecera del menu es "Bienvenido a la aplicación de jardineria" que se mostrara subrayado con "="
+ *  Este menu tiene as opciones:
+ *   1 - Crear nuevo cliente
+ *   2 - Leer modificar cliente mostrando su ficha
+ *   3 - Borrar cliente
+ *   4 - Listar datos clientes
+ *   5 - Listar clientes indicando su oficina
+ *
+ *   Indique la opción deseada:
+ *
+ * El código del menu se incluirá en un método independiente para facilitar su posterior modificación y será llamado
+ * desde dentro del main.
+ */
 public class JDBCInicio {
     public static void main(String[] args) throws SQLException {
 
@@ -53,7 +68,9 @@ public class JDBCInicio {
             String nuevoValor = sc.nextLine();
             switch (opcion) {
                 case 1:
+                    String campo = "codigo_cliente"
                     cliente.setCodigoCliente(Integer.parseInt(nuevoValor));
+                    repoCli.actualizarCliente(campo,nuevoValor);
                     break;
                 case 2:
                     cliente.setNombreCliente(nuevoValor);
