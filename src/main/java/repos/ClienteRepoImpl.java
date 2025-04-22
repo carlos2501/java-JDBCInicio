@@ -1,13 +1,9 @@
 package repos;
 
-import modelos.Cliente;
-import modelos.Empleado;
+import entidades.Cliente;
 import util.ConexionBD;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +17,8 @@ public class ClienteRepoImpl implements RepoCRUD<Cliente>{
     public List<Cliente> listarTodos() {
         List<Cliente> clientes = new ArrayList<>();
         String sql = "SELECT * FROM cliente";
-        try (PreparedStatement statement = obtenerConexion().prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
+        try (Statement statement = obtenerConexion().createStatement();
+             ResultSet rs = statement.executeQuery(sql)) {
 
             while (rs.next()) {
                 clientes.add(cargarCliente(rs));
@@ -35,6 +31,7 @@ public class ClienteRepoImpl implements RepoCRUD<Cliente>{
 
     @Override
     public Cliente buscarPorId(int id) {
+
         return null;
     }
 

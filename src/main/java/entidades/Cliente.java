@@ -1,4 +1,4 @@
-package modelos;
+package entidades;
 
 import lombok.*;
 

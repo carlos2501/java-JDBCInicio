@@ -1,7 +1,9 @@
 import controladores.ClienteCtrl;
+import entidades.Cliente;
 import repos.EmpleadoRepo;
 
 import java.sql.*;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -25,9 +27,55 @@ public class JDBCInicio {
 
         ClienteCtrl clienteCtrl = new ClienteCtrl();
 
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Bienvenido a la aplicación de jardinería");
+        System.out.println("1. Crear nuevo cliente");
+        System.out.println("2. Leer cliente");
+        System.out.println("3. Modificar cliente");
+        System.out.println("4. Borrar cliente");
+        System.out.println("5. Listar clientes");
+        System.out.println("6. Listar clientes indicando su oficina");
+        System.out.println("7. Salir");
+        System.out.print("Seleccione una opcion del menu: ");
+        int opcion = scanner.nextInt();
+        scanner.nextLine();
+        switch(opcion){
+            case 1:
+                System.out.println("Opción no implementada");
+                break;
+            case 2:
+                System.out.println("Indique el Id del cliente ");
+                int idCliente = scanner.nextInt();
+                clienteCtrl.leerCliente(idCliente);
+                break;
+            case 3:
+                System.out.println("Opción no implementada");
+                break;
+            case 4:
+                System.out.println("Opción no implementada");
+                break;
+            case 5:
+                clienteCtrl.listarClientes();
+                break;
+            case 6:
+                System.out.println("Opción no implementada");
+                break;
+            default:
+
+                break;
+        }
+
+
+
+
+
+
+ /*
+        ClienteCtrl clienteCtrl = new ClienteCtrl();
+
         clienteCtrl.listarClientes();
 
-       /*
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Bienvenido a la aplicacion de jardineria");
         System.out.println("1. Crear nuevo cliente");

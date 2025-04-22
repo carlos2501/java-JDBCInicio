@@ -1,6 +1,6 @@
 package repos;
 
-import modelos.Empleado;
+import entidades.Empleado;
 import util.ConexionBD;
 
 import java.sql.Connection;

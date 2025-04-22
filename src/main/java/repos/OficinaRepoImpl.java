@@ -1,6 +1,6 @@
 package repos;
 
-import modelos.Oficina;
+import entidades.Oficina;
 
 import java.util.List;
 

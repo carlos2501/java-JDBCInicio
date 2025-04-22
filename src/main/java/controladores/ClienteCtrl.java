@@ -1,7 +1,7 @@
 package controladores;
 
 
-import modelos.Cliente;
+import entidades.Cliente;
 import repos.ClienteRepoImpl;
 
 import java.util.List;
@@ -11,12 +11,11 @@ public class ClienteCtrl {
 
     private ClienteRepoImpl clienteRepo = new ClienteRepoImpl();
 
-    public  void listarClientes(){
+    public void listarClientes(){
         List<Cliente> listaClientes = clienteRepo.listarTodos();
         for (Cliente cliente : listaClientes) {
             System.out.println(cliente.toString());
         }
-
     }
     public void crearNuevoCliente(){
         Scanner scanner = new Scanner(System.in);
@@ -50,6 +49,12 @@ public class ClienteCtrl {
         cliente.setRepVentas(scanner.nextInt());
         scanner.nextLine();
         clienteRepo.guardar(cliente);
+    }
+
+    public void leerCliente(int idCliente){
+        Cliente cli = clienteRepo.buscarPorId(idCliente);
+        System.out.printf("\nNombre [%s] Dirección1 [%s] Dirección 2 [%s] Ciudad [%s] CP [%s]", cli.getNombreCliente(),
+                cli.getLineaDireccion1(), cli.getLineaDireccion2(), cli.getCiudad(), cli.getCodigoPostal());
     }
 
 }
