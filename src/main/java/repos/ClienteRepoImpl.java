@@ -30,7 +30,7 @@ public class ClienteRepoImpl implements RepoCRUD<Cliente>{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return List.of();
+        return clientes;
     }
 
     @Override
