@@ -19,7 +19,7 @@ public class ClienteCtrl {
             System.out.println(cliente.toString());
         }
     }
-    public void crearNuevoCliente(){
+    public void crearNuevoCliente() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         Cliente cliente = new Cliente();
         System.out.println("Ingrese el nombre del cliente: ");
@@ -156,6 +156,8 @@ public class ClienteCtrl {
             // repetir el bucle 3 a 5 hasta que el usuario no quiera modificar más campos
 
             // guardar el cliente modificado
+            clienteRepo.guardar(cli);
+
         } else {
             System.out.println("No existe el cliente con el código de cliente " + idCliente);
         }
