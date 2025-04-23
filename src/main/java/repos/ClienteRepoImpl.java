@@ -6,12 +6,13 @@ import util.ConexionBD;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ClienteRepoImpl implements RepoCRUD<Cliente>{
 
     private Connection obtenerConexion() throws SQLException {
         return ConexionBD.getConexion();
-    };
+    }
 
     @Override
     public List<Cliente> listarTodos() {
@@ -30,9 +31,18 @@ public class ClienteRepoImpl implements RepoCRUD<Cliente>{
     }
 
     @Override
-    public Cliente buscarPorId(int id) {
-
-        return null;
+    public Optional<Cliente> buscarPorId(int id) throws SQLException {
+        String qry = "SELECT * FROM cliente WHERE codigo_cliente = ?";
+        try (PreparedStatement pstmt = obtenerConexion().prepareStatement(qry)) {
+            pstmt.setInt(1, id);
+            pstmt.execute();
+            ResultSet rs = pstmt.getResultSet();
+            if(rs.next()) {
+                return Optional.of(cargarCliente(rs));
+            } else {
+                return Optional.empty();
+            }
+        }
     }
 
     @Override

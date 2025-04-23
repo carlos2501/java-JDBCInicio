@@ -4,12 +4,14 @@ package controladores;
 import entidades.Cliente;
 import repos.ClienteRepoImpl;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class ClienteCtrl {
 
-    private ClienteRepoImpl clienteRepo = new ClienteRepoImpl();
+    private final ClienteRepoImpl clienteRepo = new ClienteRepoImpl();
 
     public void listarClientes(){
         List<Cliente> listaClientes = clienteRepo.listarTodos();
@@ -51,10 +53,15 @@ public class ClienteCtrl {
         clienteRepo.guardar(cliente);
     }
 
-    public void leerCliente(int idCliente){
-        Cliente cli = clienteRepo.buscarPorId(idCliente);
-        System.out.printf("\nNombre [%s] Dirección1 [%s] Dirección 2 [%s] Ciudad [%s] CP [%s]", cli.getNombreCliente(),
-                cli.getLineaDireccion1(), cli.getLineaDireccion2(), cli.getCiudad(), cli.getCodigoPostal());
+    public void leerCliente(int idCliente) throws SQLException {
+        Optional<Cliente> cliente = clienteRepo.buscarPorId(idCliente);
+        if(cliente.isPresent()){
+            Cliente cli = cliente.get();
+            System.out.printf("\nNombre [%s] Dirección1 [%s] Dirección 2 [%s] Ciudad [%s] CP [%s]", cli.getNombreCliente(),
+                    cli.getLineaDireccion1(), cli.getLineaDireccion2(), cli.getCiudad(), cli.getCodigoPostal());
+        } else {
+            System.out.println("No existe el cliente con el código de cliente " + idCliente);
+        }
     }
 
 }

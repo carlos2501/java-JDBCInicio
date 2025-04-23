@@ -1,10 +1,12 @@
 package repos;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public interface RepoCRUD<T> {
     List<T> listarTodos();
-    T buscarPorId(int id);
+    Optional<T> buscarPorId(int id) throws SQLException;
     void guardar(T t);
     void eliminar(Long id);
 }

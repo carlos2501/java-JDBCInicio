@@ -3,6 +3,7 @@ package repos;
 import entidades.Oficina;
 
 import java.util.List;
+import java.util.Optional;
 
 public class OficinaRepoImpl implements RepoCRUD<Oficina>{
     @Override
@@ -11,8 +12,8 @@ public class OficinaRepoImpl implements RepoCRUD<Oficina>{
     }
 
     @Override
-    public Oficina buscarPorId(int id) {
-        return null;
+    public Optional<Oficina> buscarPorId(int id) {
+        return Optional.empty();
     }
 
     @Override
