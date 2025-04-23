@@ -47,23 +47,7 @@ public class ClienteRepoImpl implements RepoCRUD<Cliente>{
 
     @Override
     public void guardar(Cliente cliente) throws SQLException {
-        String qry ="""
-            UPDATE cliente SET
-                nombre_cliente = ?,
-                nombre_contacto = ?,
-                apellido_contacto = ?,
-                telefono = ?,
-                fax = ?,
-                linea_direccion1 = ?,
-                linea_direccion2 = ?,
-                ciudad = ?,
-                region = ?,
-                pais = ?,
-                codigo_postal = ?,
-                rep_ventas = ?,
-                limite_credito = ?
-            WHERE codigo_cliente = ?
-        """;
+        String qry ="UPDATE cliente SET nombre_cliente = ?, nombre_contacto = ?, apellido_contacto = ?, telefono = ?, fax = ?, linea_direccion1 = ?, linea_direccion2 = ?, ciudad = ?, region = ?, pais = ?, codigo_postal = ?, rep_ventas = ?, limite_credito = ? WHERE codigo_cliente = ?";
         try (PreparedStatement pstmt = obtenerConexion().prepareStatement(qry)) {
             pstmt.setString(1, cliente.getNombreCliente());
             pstmt.setString(2, cliente.getNombreContacto());
@@ -79,7 +63,7 @@ public class ClienteRepoImpl implements RepoCRUD<Cliente>{
             pstmt.setInt(12, cliente.getRepVentas());
             pstmt.setFloat(13, cliente.getLimiteCredito());
             pstmt.setInt(14, cliente.getCodigoCliente());
-            pstmt.execute(qry);
+            pstmt.executeUpdate();
         }
     }
 
