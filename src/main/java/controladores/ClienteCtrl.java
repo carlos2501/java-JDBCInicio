@@ -64,4 +64,101 @@ public class ClienteCtrl {
         }
     }
 
+    public void modificarCliente(int idCliente) throws SQLException {
+        // 1 leo el cliente por su id
+        Optional<Cliente> cliente = clienteRepo.buscarPorId(idCliente);
+        if (cliente.isPresent()){
+            // 2 presento los datos del cliente con cada campo numerado para poder preguntar qué campo quiero cambiar
+            Cliente cli = cliente.get();
+
+            // Opción A: fácil y larga pero más eficiente
+            // long inicio = System.currentTimeMillis(); des-comentar para medir tiempos de ejecución
+            System.out.println("0 - Terminar las modificaciones");
+            System.out.println(cli.toFicha());
+            // System.out.println("Con toString. Duración: " + (System.currentTimeMillis() - inicio) +" ms.");
+
+            // Opción B: corta pero compleja mediante reflexión y menos eficiente en tiempo de ejecución
+            /*
+            inicio = System.currentTimeMillis();
+            Field[] campos = cliente.get().getClass().getDeclaredFields();
+            int i = 1;
+            for (Field campo : campos) {
+                campo.setAccessible(true);
+                System.out.println(i++ + " - " + campo.getName() + ": " + campo.get(cli));
+            }
+            System.out.println("Con reflexión. Duración: " + (System.currentTimeMillis() - inicio) + " ms.");
+             */
+
+            // Creamos un bucle para que conteste un nro. de campo válido a deje de modificar
+            boolean flag = true;
+            while (flag) {
+                // 3 preguntar qué campo quiere cambiar
+                System.out.println("Dígame el numero del campo que desea modificar:");
+                Scanner scanner = new Scanner(System.in);
+                int campo = scanner.nextInt();
+                scanner.nextLine();
+                if (campo != 0) {
+                    // 4 preguntar el nuevo valor
+                    System.out.println("Que valor le desea dar al campo?");
+                    String valor = scanner.nextLine();
+                    // 5 asignar el nuevo valor al campo
+                    switch (campo) {
+                        case 1:
+                            System.out.println("El código de cliente no se puede modificar");
+                            break;
+                        case 2:
+                            cli.setNombreCliente(valor);
+                            break;
+                        case 3:
+                            cli.setNombreContacto(valor);
+                            break;
+                        case 4:
+                            cli.setApellidoContacto(valor);
+                            break;
+                        case 5:
+                            cli.setTelefono(valor);
+                            break;
+                        case 6:
+                            cli.setFax(valor);
+                            break;
+                        case 7:
+                            cli.setLineaDireccion1(valor);
+                            break;
+                        case 8:
+                            cli.setLineaDireccion2(valor);
+                            break;
+                        case 9:
+                            cli.setCiudad(valor);
+                            break;
+                        case 10:
+                            cli.setRegion(valor);
+                            break;
+                        case 11:
+                            cli.setPais(valor);
+                            break;
+                        case 12:
+                            cli.setCodigoPostal(valor);
+                            break;
+                        case 13:
+                            cli.setRepVentas(Integer.valueOf(valor));
+                            break;
+                        case 14:
+                            cli.setLimiteCredito(Float.valueOf(valor));
+                            break;
+                        default:
+                            System.out.println("Ese campo no existe.");
+                    }
+                } else {
+                    flag = false;
+                }
+
+            }
+            // repetir el bucle 3 a 5 hasta que el usuario no quiera modificar más campos
+
+            // guardar el cliente modificado
+        } else {
+            System.out.println("No existe el cliente con el código de cliente " + idCliente);
+        }
+    }
+
 }

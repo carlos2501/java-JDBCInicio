@@ -1,9 +1,6 @@
 import controladores.ClienteCtrl;
-import entidades.Cliente;
-import repos.EmpleadoRepo;
 
 import java.sql.*;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -16,9 +13,7 @@ import java.util.Scanner;
  *   3 - Borrar cliente
  *   4 - Listar datos clientes
  *   5 - Listar clientes indicando su oficina
- *
  *   Indique la opción deseada:
- *
  * El código del menu se incluirá en un método independiente para facilitar su posterior modificación y será llamado
  * desde dentro del main.
  */
@@ -39,17 +34,20 @@ public class JDBCInicio {
         System.out.print("Seleccione una opcion del menu: ");
         int opcion = scanner.nextInt();
         scanner.nextLine();
+        int idCliente;
         switch(opcion){
             case 1:
                 System.out.println("Opción no implementada");
                 break;
             case 2:
                 System.out.println("Indique el Id del cliente ");
-                int idCliente = scanner.nextInt();
+                idCliente = scanner.nextInt();
                 clienteCtrl.leerCliente(idCliente);
                 break;
             case 3:
-                System.out.println("Opción no implementada");
+                System.out.println("Indique el Id del cliente ");
+                idCliente = scanner.nextInt();
+                clienteCtrl.modificarCliente(idCliente);
                 break;
             case 4:
                 System.out.println("Opción no implementada");
