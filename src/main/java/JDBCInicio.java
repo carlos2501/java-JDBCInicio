@@ -37,7 +37,8 @@ public class JDBCInicio {
         int idCliente;
         switch(opcion){
             case 1:
-                System.out.println("Opción no implementada");
+                Integer codCli = clienteCtrl.crearNuevoCliente();
+                System.out.println("Se ha guardado un nuevo cliente con el código " + codCli );
                 break;
             case 2:
                 System.out.println("Indique el Id del cliente ");
@@ -50,7 +51,9 @@ public class JDBCInicio {
                 clienteCtrl.modificarCliente(idCliente);
                 break;
             case 4:
-                System.out.println("Opción no implementada");
+                System.out.println("Indique el Id del cliente ");
+                idCliente = scanner.nextInt();
+                clienteCtrl.borrarCliente(idCliente);
                 break;
             case 5:
                 clienteCtrl.listarClientes();

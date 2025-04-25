@@ -12,6 +12,7 @@ import java.util.Scanner;
 public class ClienteCtrl {
 
     private final ClienteRepoImpl clienteRepo = new ClienteRepoImpl();
+    private final Scanner scanner = new Scanner(System.in);
 
     public void listarClientes(){
         List<Cliente> listaClientes = clienteRepo.listarTodos();
@@ -19,7 +20,8 @@ public class ClienteCtrl {
             System.out.println(cliente.toString());
         }
     }
-    public void crearNuevoCliente() throws SQLException {
+
+    public Integer crearNuevoCliente() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         Cliente cliente = new Cliente();
         System.out.println("Ingrese el nombre del cliente: ");
@@ -50,7 +52,7 @@ public class ClienteCtrl {
         System.out.println("Ingrese el codigo de empleado del cliente: ");
         cliente.setRepVentas(scanner.nextInt());
         scanner.nextLine();
-        clienteRepo.guardar(cliente);
+        return clienteRepo.guardar(cliente);
     }
 
     public void leerCliente(int idCliente) throws SQLException {
@@ -163,4 +165,35 @@ public class ClienteCtrl {
         }
     }
 
+    public void borrarCliente(Integer idCliente) {
+        System.out.println("\n--- BORRAR CLIENTE ---");
+        try {
+            // 1. Obtener datos del cliente
+            Optional<Cliente> clienteOpt = clienteRepo.buscarPorId(idCliente);
+
+            if (clienteOpt.isEmpty()) {
+                System.out.println("❌ Cliente no encontrado");
+                return;
+            }
+
+            // 2. Mostrar información del cliente y pedimos confirmación de borrado
+            System.out.println("\n⚠️ DATOS DEL CLIENTE A BORRAR ⚠️");
+            System.out.println("Nombre: " + clienteOpt.get().getNombreCliente());
+            System.out.println("Teléfono: " + clienteOpt.get().getTelefono());
+            System.out.println("----------------------------------");
+            System.out.print("¿Confirmar borrado? (S/N): ");
+            String confirmacion = scanner.nextLine();
+
+            // 3. Procesar respuesta
+            if (confirmacion.equalsIgnoreCase("S")) {
+                clienteRepo.eliminar(idCliente);
+                System.out.println("✅ Cliente borrado correctamente");
+            } else {
+                System.out.println("❌ Operación cancelada");
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error al borrar cliente: " + e.getMessage());
+        }
+    }
 }

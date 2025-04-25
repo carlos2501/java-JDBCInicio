@@ -31,7 +31,7 @@ public class ClienteRepoImpl implements RepoCRUD<Cliente>{
     }
 
     @Override
-    public Optional<Cliente> buscarPorId(int id) throws SQLException {
+    public Optional<Cliente> buscarPorId(Integer id) throws SQLException {
         String qry = "SELECT * FROM cliente WHERE codigo_cliente = ?";
         try (PreparedStatement pstmt = obtenerConexion().prepareStatement(qry)) {
             pstmt.setInt(1, id);
@@ -46,8 +46,27 @@ public class ClienteRepoImpl implements RepoCRUD<Cliente>{
     }
 
     @Override
-    public void guardar(Cliente cliente) throws SQLException {
-        String qry ="UPDATE cliente SET nombre_cliente = ?, nombre_contacto = ?, apellido_contacto = ?, telefono = ?, fax = ?, linea_direccion1 = ?, linea_direccion2 = ?, ciudad = ?, region = ?, pais = ?, codigo_postal = ?, rep_ventas = ?, limite_credito = ? WHERE codigo_cliente = ?";
+    public Integer guardar(Cliente cliente) throws SQLException {
+        String qry;
+        String qryIns ="""
+                INSERT INTO cliente (
+                    nombre_cliente, nombre_contacto, apellido_contacto, telefono, fax, linea_direccion1,
+                    linea_direccion2, ciudad, region, pais, codigo_postal, rep_ventas, limite_credito, codigo_Cliente)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                """;
+        String qryUpd ="""
+            UPDATE cliente SET nombre_cliente = ?, nombre_contacto = ?, apellido_contacto = ?, telefono = ?, 
+                fax = ?, linea_direccion1 = ?, linea_direccion2 = ?, ciudad = ?, region = ?, pais = ?, 
+                codigo_postal = ?, rep_ventas = ?, limite_credito = ? 
+            WHERE codigo_cliente = ?
+            """;
+        // Para saber si hay que actualizar o insertar, miramos si existe el código del cliente
+        if (cliente.getCodigoCliente() > 0) {
+            qry = qryUpd;
+        } else {
+            qry = qryIns;
+            cliente.setCodigoCliente(getUltimoCodigoCliente());
+        }
         try (PreparedStatement pstmt = obtenerConexion().prepareStatement(qry)) {
             pstmt.setString(1, cliente.getNombreCliente());
             pstmt.setString(2, cliente.getNombreContacto());
@@ -64,12 +83,20 @@ public class ClienteRepoImpl implements RepoCRUD<Cliente>{
             pstmt.setFloat(13, cliente.getLimiteCredito());
             pstmt.setInt(14, cliente.getCodigoCliente());
             pstmt.executeUpdate();
+
         }
+        return cliente.getCodigoCliente();
     }
 
     @Override
-    public void eliminar(Long id) {
-
+    public void eliminar(Integer id) {
+        String qry ="DELETE FROM cliente WHERE codigo_cliente = ?";
+        try (PreparedStatement pstmt = obtenerConexion().prepareStatement(qry)) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Cliente cargarCliente(ResultSet rs) throws SQLException {
@@ -89,5 +116,17 @@ public class ClienteRepoImpl implements RepoCRUD<Cliente>{
         cliente.setRepVentas(rs.getInt("rep_ventas"));
         cliente.setLimiteCredito(rs.getFloat("limite_credito"));
         return cliente;
+    }
+    
+    private Integer getUltimoCodigoCliente() throws SQLException {
+        String qry = "SELECT MAX(codigo_cliente) FROM cliente";
+        try (Statement statement = obtenerConexion().createStatement();
+             ResultSet rs = statement.executeQuery(qry)) {
+            if (rs.next()) {
+                return rs.getInt(1) + 1;
+            } else {
+                return 1;
+            }
+        }
     }
 }

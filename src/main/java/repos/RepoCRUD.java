@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface RepoCRUD<T> {
     List<T> listarTodos();
-    Optional<T> buscarPorId(int id) throws SQLException;
-    void guardar(T t) throws SQLException;
-    void eliminar(Long id);
+    Optional<T> buscarPorId(Integer id) throws SQLException;
+    Integer guardar(T t) throws SQLException;
+    void eliminar(Integer id);
 }

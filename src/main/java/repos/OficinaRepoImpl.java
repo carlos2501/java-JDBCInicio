@@ -12,17 +12,17 @@ public class OficinaRepoImpl implements RepoCRUD<Oficina>{
     }
 
     @Override
-    public Optional<Oficina> buscarPorId(int id) {
+    public Optional<Oficina> buscarPorId(Integer id) {
         return Optional.empty();
     }
 
     @Override
-    public void guardar(Oficina oficina) {
-
+    public Integer guardar(Oficina oficina) {
+        return null;
     }
 
     @Override
-    public void eliminar(Long id) {
+    public void eliminar(Integer id) {
 
     }
 }
